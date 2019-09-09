@@ -1,5 +1,6 @@
 from config import *
 import psycopg2
+
 conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,password))
 cur = conn.cursor()
 
@@ -9,6 +10,7 @@ categorias = [ 'Tecnologia', 'Video Juegos', 'Geek', 'Cine', 'Mundo Marvel'];
 for categoria in categorias :
     sql = """ insert into categorias (nombre, creado) values ('%s', now());"""%(categoria)
     cur.execute(sql)
+    conn.commit()
 
 # Crear posts para usuario id = 1
 posts = [
@@ -23,6 +25,7 @@ for post in posts :
     insert into posts (usuario_id,titulo,resumen,texto,creado) values (%i,'%s','%s','%s',now())
     returning id;"""%(post);
     cur.execute(sql)
+    conn.commit()
 
 # Obtener todos los posts
 sql = """select id from posts;"""
@@ -44,6 +47,7 @@ for post_id in posts_id :
         sql = """insert into categorias_posts (categoria_id, post_id)
         values('%i','%i');"""%(category_id, post_id)
         cur.execute(sql)
+        conn.commit()
 
 
 sql ="""insert INTO usuarios (nombre,apellido,email,passwd,creado)
@@ -51,9 +55,7 @@ sql ="""insert INTO usuarios (nombre,apellido,email,passwd,creado)
 """
 
 cur.execute(sql)
-
-
-
 conn.commit()
+
 cur.close()
 conn.close()
