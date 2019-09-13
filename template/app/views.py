@@ -13,7 +13,6 @@ def index():
 	sql ="""
 	select id,nombre from categorias order by nombre
 	"""
-	# print sql
 	cur.execute(sql)
 	categorias  = cur.fetchall()
 	sql ="""
@@ -62,7 +61,7 @@ def post(post_id):
 	# print sql
 	cur.execute(sql)
 	comentarios  = cur.fetchall()
-	return render_template("post.html", post= post,categorias=categorias,comentarios= comentarios)
+	return render_template("post.html", post=post, categorias=categorias, comentarios=comentarios )
 
 
 @app.route('/comentario/<id>', methods=['GET', 'POST'])
