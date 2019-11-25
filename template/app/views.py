@@ -11,16 +11,15 @@ cur = conn.cursor()
 @app.route('/index')
 def index():
 	sql ="""
-	select id,nombre from categorias order by nombre
-	"""
+	select id,nombre from categorias order by nombre"""
 	cur.execute(sql)
 	categorias  = cur.fetchall()
+	print(categorias)
 	sql ="""
 	select posts.id,titulo,resumen,nombre,apellido from posts,usuarios where
 	posts.usuario_id = usuarios.id;"""
 	cur.execute(sql)
 	posts  = cur.fetchall()
-	print(posts);
 	return render_template("index.html",categorias=categorias,posts=posts)
 
 
@@ -61,6 +60,9 @@ def post(post_id):
 	# print sql
 	cur.execute(sql)
 	comentarios  = cur.fetchall()
+
+	
+
 	return render_template("post.html", post=post, categorias=categorias, comentarios=comentarios )
 
 
